@@ -1,0 +1,21 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+nav{
+  display: flex;
+  background-color: black;
+  gap: 35px;
+  padding: 25px;
+}
+nav a{
+  color: white;
+  text-decoration: none;
+}
+
+.red{
+  background-color: aqua;
+  color: purple;
+}
+  

@@ -1,0 +1,7 @@
+@import "tailwindcss";
+.api{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  
+}

@@ -1,0 +1,9 @@
+div.footer{
+    text-align: center;
+    padding: 20px;
+    background-color: rgb(47, 46, 46);
+    color: white;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
