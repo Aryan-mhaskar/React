@@ -10,6 +10,8 @@ function App() {
   return (
     <>
       <h1>Learn about Redux Toolkit</h1>
+      <AddTodo/>
+      <Todos/>
     </>
   )
 }
