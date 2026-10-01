@@ -1,54 +1,95 @@
-import React from 'react'
-import { useSelector,useDispatch } from 'react-redux'
-import {removeTodo,updateTodo} from '../app/features/todo/todoSlice'
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+    removeTodo,
+    updateTodo
+} from '../app/features/todo/todoSlice'
 
 const Todos = () => {
-    const todos = useSelector((state)=>state.todos.todos)
+    const todos = useSelector((state) => state.todos.todos)
     const dispatch = useDispatch()
 
-    const handleUpdate=(todo)=>{
-        const newText = prompt('Enter new text for the todo:', todo.text);
-        if (newText && newText.trim() !== '') {
+    const [editId, setEditId] = useState(null)
+    const [editText, setEditText] = useState('')
+
+    const handleUpdate = (todo) => {
+        setEditId(todo.id)
+        setEditText(todo.text)
+    }
+
+    const saveUpdate = (id) => {
+        if (editText.trim() !== '') {
             dispatch(
                 updateTodo({
-                    id: todo.id,
-                    text: newText
+                    id: id,
+                    text: editText
                 })
             )
+
+            setEditId(null)
+            setEditText('')
         }
     }
 
-  return (
-    <>
-    <div>
-        Todos
-    </div>
-        {todos.map((todo)=>(
-            <li
-            className='mt-4 flex justify-between items-center bg-zinc-800 px-4 py-2 rounded'
-            key={todo.id}>
-            <div className='text-white'>{todo.text}</div>
-            <button
-            onClick={()=>dispatch(removeTodo(todo.id))}
-            className='text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded text-md'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-            </button>
-            <button 
-            
-            onClick={()=>handleUpdate(todo)}
-            className='text-white bg-blue-500 border-0 py-1 px-4 focus:outline-none hover:bg-blue-600 rounded text-md'>
-            Update
-            </button>
-            </li>
-        ))}
-    
-    </>
-    
-)
-}
-  
+    return (
+        <>
+            <div>
+                Todos
+            </div>
 
+            {todos.map((todo) => (
+                <li
+                    className="mt-4 flex justify-between items-center bg-zinc-800 px-4 py-2 rounded"
+                    key={todo.id}
+                >
+
+                    {editId === todo.id ? (
+                        // Input while editing
+                        <input
+                            type="text"
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                            className="text-white px-2 py-1 rounded"
+                        />
+                    ) : (
+                        // Normal text
+                        <div className="text-white">
+                            {todo.text}
+                        </div>
+                    )}
+
+                    <div className="flex gap-2">
+
+                        {/* Delete */}
+                        <button
+                            onClick={() => dispatch(removeTodo(todo.id))}
+                            className="text-white bg-red-500 border-0 py-1 px-4 hover:bg-red-600 rounded text-md"
+                        >
+                            Delete
+                        </button>
+
+                        {/* Update / Save */}
+                        {editId === todo.id ? (
+                            <button
+                                onClick={() => saveUpdate(todo.id)}
+                                className="text-white bg-green-500 border-0 py-1 px-4 hover:bg-green-600 rounded text-md"
+                            >
+                                Save
+                            </button>
+                        ) : (
+                            <button
+                                onClick={() => handleUpdate(todo)}
+                                className="text-white bg-blue-500 border-0 py-1 px-4 hover:bg-blue-600 rounded text-md"
+                            >
+                                Update
+                            </button>
+                        )}
+
+                    </div>
+                </li>
+            ))}
+        </>
+    )
+}
 
 export default Todos
