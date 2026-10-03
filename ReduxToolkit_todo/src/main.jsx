@@ -5,6 +5,14 @@ import App from './App.jsx'
 import { Provider } from 'react-redux'
 import { store } from './app/store.js'
 
+import { registerSW } from 'virtual:pwa-register'
+
+registerSW({
+  onOfflineReady() {
+    console.log('App is ready to work offline')
+  }
+})
+
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <App />
